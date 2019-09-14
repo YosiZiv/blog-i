@@ -1,0 +1,46 @@
+.NavigationContainer {
+  position: fixed;
+  top: 6vh;
+  left: 0;
+  width: 100%;
+  height: 8vh;
+  background: #ffffff;
+  z-index: 2;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(237, 240, 245, 0.8);
+}
+
+.NavigatinLink {
+  display: flex;
+  align-items: center;
+}
+
+.NavigatinLink li {
+  list-style-type: none;
+}
+.NavigatinLink a {
+  border-left: 1px solid #d4d4d2;
+  color: #aaa9a7;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+.NavigatinLink a:hover,
+.NavigatinLink a.active {
+  color: blue;
+}
+.SideButton {
+  padding: 20px;
+  margin-right: auto;
+}
+@media screen and (max-width: 768px) {
+  .NavigatinLink {
+    display: none;
+  }
+}
+@media screen and (min-width: 769px) {
+  .SideButton {
+    display: none;
+    padding: 0;
+    margin-right: 0;
+  }
+}
