@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { SECRET, TOKEN_EXPIRES_IN } = require('../../config/keys');
+const { USER, TOKEN_EXPIRES_IN, ADMIN } = require('../../config/keys');
 const {
   validateLoginInput,
   validateRegisterInput
@@ -72,8 +72,34 @@ exports.login = async (req, res, next) => {
       .compare(password, dbUser.password)
       .then(isMatch => {
         if (isMatch) {
-          console.log('inside', isMatch);
-          //  User Matched
+          if (dbUser.role === 'admin') {
+            const user = {
+              id: dbUser.id,
+              firstName: dbUser.firstName,
+              lastName: dbUser.lastName,
+              email: dbUser.email,
+              admin: true
+            };
+            return jwt.sign(
+              user,
+              ADMIN,
+              { expiresIn: TOKEN_EXPIRES_IN },
+              (err, token) => {
+                if (token) {
+                  return res.json({
+                    success: true,
+                    adminToken: `Bearer ${token}`,
+                    userId: user.id,
+                    expiresIn: TOKEN_EXPIRES_IN
+                  });
+                }
+
+                return res
+                  .status(500)
+                  .json({ message: 'Somthing went wrong', err });
+              }
+            );
+          } // if no admin sign in user
           const user = {
             id: dbUser.id,
             firstName: dbUser.firstName,
@@ -83,18 +109,24 @@ exports.login = async (req, res, next) => {
           //  Sign Token
           return jwt.sign(
             user,
-            SECRET,
+            USER,
             { expiresIn: TOKEN_EXPIRES_IN },
-            (err, token) =>
-              res.json({
-                success: true,
-                token: `Bearer ${token}`,
-                userId: user.id,
-                expiresIn: TOKEN_EXPIRES_IN
-              })
+            (err, token) => {
+              if (token) {
+                res.json({
+                  success: true,
+                  userToken: `Bearer ${token}`,
+                  expiresIn: TOKEN_EXPIRES_IN
+                });
+              }
+              return res
+                .status(500)
+                .json({ message: 'Somthing went wrong', err });
+            }
           );
         }
-        return res.status(500).json({ message: 'Somthing went wrong', err });
+        // no user found send 403 with message
+        return res.status(401).json({ errors: 'User not found' });
       })
       .catch(err => {
         if (err) {
