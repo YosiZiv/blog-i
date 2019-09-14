@@ -4,15 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 
+const api = require('./express/api');
 //  Express App initalizing
 const app = express();
 
-//  Body parser middleware
+//  middleware
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+//  API
+app.use('/api', api);
 
 const port = process.env.PORT || 5000;
 
