@@ -9,51 +9,6 @@ const {
 //  Load user model
 const { User } = require('../models');
 
-//  Register User Handle function
-
-// exports.register = async (req, res, next) => {
-//     const { errors } = validateRegisterInput(req.body);
-//     if (Object.keys(errors).length) {
-//         return res.status(403).json(errors);
-//     }
-//     //  Check if email already exists
-//     const user = await User.findOne({ email: req.body.email });
-
-//     if (user) {
-//         errors.global = 'מייל כבר רשום במערכת';
-//         return res.status(400).json(errors);
-//     }
-//     //  Create new user
-
-//     const newUser = await new User({
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         email: req.body.email,
-//         password: req.body.password,
-//     });
-
-//     //  Hash the password
-
-//     return bcrypt.genSalt(10, (err, salt) => {
-//         bcrypt.hash(newUser.password, salt, (e, hash) => {
-//             if (e) {
-//                 errors.bcrypt = 'קרתה תקלה נסו שוב מאוחר יותר';
-//                 return res.status(400).json(errors);
-//             }
-//             newUser.password = hash;
-//             newUser.save()
-//                 .then(() => {
-//                     const message = {
-//                         message: 'מנהל נרשם בהצלחה',
-//                     };
-//                     console.log(message);
-//                     res.status(201).json(message);
-//                 })
-//                 .catch(error => console.log(error));
-//         });
-//     });
-// };
-
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   console.log(email, password);
@@ -138,16 +93,6 @@ exports.login = async (req, res, next) => {
   });
 };
 
-// exports.current = async (req, res) => {
-//     const { id, firstName, lastName, email, companyName } = req.user;
-//     await res.json({
-//         id,
-//         firstName,
-//         lastName,
-//         email,
-//         companyName,
-//     });
-// };
 exports.register = async (req, res, next) => {
   try {
     const { errors } = validateRegisterInput(req.body);
