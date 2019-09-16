@@ -102,7 +102,7 @@ exports.register = async (req, res, next) => {
     //  Check if email already exists
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      errors.global = 'מייל כבר רשום במערכת';
+      errors.global = 'This Email address is already exists';
       return res.status(400).json(errors);
     }
     //  Create new user
@@ -116,20 +116,20 @@ exports.register = async (req, res, next) => {
     await bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, async (e, hash) => {
         if (e) {
-          errors.bcrypt = 'קרתה תקלה נסו שוב מאוחר יותר';
+          errors.bcrypt = 'Something went worng :\ ';
           return res.status(400).json(errors);
         }
         newUser.password = hash;
         await newUser.save();
         const message = {
-          message: 'מנהל נרשם בהצלחה'
+          message: 'User has registered with successfully'
         };
         return res.status(201).json(message);
       });
     });
   } catch (err) {
     console.log('log 8');
-    const error = new Error('אופס משהו השתבש נסו שוב מאוחר יותר');
+    const error = new Error('Somthing went Wrong');
     return next(error);
   }
 };

@@ -27,32 +27,32 @@ exports.validateRegisterInput = data => {
 
   //  first name validations
   if (!Validator.isLength(firstName, { min: 2, max: 30 })) {
-    errors.firstName = 'שם פרטי חייב להכיל לפחות 2 תווים ועד 30 תווים';
+    errors.firstName = 'First Name is too shot or too long';
   }
   if (Validator.isEmpty(firstName)) {
-    errors.firstName = 'שם פרטי זה שדה חובה';
+    errors.firstName = 'First name is required';
   }
   //  last_name validation
   if (!Validator.isLength(lastName, { min: 2, max: 30 })) {
-    errors.lastName = 'שם משפחה חייב להכיל לפחות 2 תווים ועד 30 תווים';
+    errors.lastName = 'Last Name is too shot or too long';
   }
   if (Validator.isEmpty(lastName)) {
-    errors.lastName = 'שם משפחה שדה חובה';
+    errors.lastName = 'Last name is required'
   }
 
   //  Email validation
   if (Validator.isEmpty(email)) {
-    errors.email = 'איימיל שדה חובה';
+    errors.email = 'Email address is required';
   }
   if (!Validator.isEmail(email)) {
-    errors.email = 'איימיל לא תקין';
+    errors.email = 'Emial address is not valid ';
   }
   //  password validation
   if (Validator.isEmpty(password)) {
-    errors.password = 'סיסמא שדה חובה';
+    errors.password = 'Password is required';
   }
   if (!Validator.isLength(password, { min: 6, max: 30 })) {
-    errors.password = 'סיסמא חייב להכיל לפחות 6 תווים ועד 30 תווים בלבד';
+    errors.password = 'Password should be minimum of 6 characters and max of 30 characters';
   }
   console.log(errors);
 
