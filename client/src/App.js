@@ -4,6 +4,7 @@ import Navigation from './components/layout/Navigation/Navigation';
 import SideNavigation from './components/layout/SideNavigation/SideNavigation';
 import BackDrop from './components/layout/BackDrop/BackDrop';
 import MainPage from './components/pages/MainPage/MainPage';
+import Login from './components/pages/Login/Login';
 // import AboutPage from './components/pages/AboutPage/AboutPage';
 // import ContentPage from './components/pages/ContentPage/ContentPage';
 // import AdminPage from './components/pages/AdminPage/AdminPage';
@@ -30,6 +31,7 @@ class App extends Component {
     const routes = (
       <Switch>
         <Route component={MainPage} path="/" exact />
+        <Route component={Login} path="/login" />
         {/* <Route component={AboutPage} path="/about" />
         <Route component={ContentPage} path="/content" />
         <Route component={AdminPage} path="/admin" /> */}
