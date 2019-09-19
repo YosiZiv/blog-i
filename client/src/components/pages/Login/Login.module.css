@@ -1,0 +1,33 @@
+.Login {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  margin: 0 auto;
+  height: 80vh;
+  padding-top: 20px;
+}
+.LoginCard {
+  width: 65%;
+  margin: auto auto;
+  color: black;
+}
+
+.LoginForm {
+  margin: 20px auto;
+  width: 55%;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.Button {
+  height: 100%;
+  padding-top: 14px;
+  color: red;
+}
+.LoginMessage {
+  margin: 0 auto;
+  color: red;
+  width: 100%;
+}

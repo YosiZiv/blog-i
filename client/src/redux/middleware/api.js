@@ -8,16 +8,17 @@ export const api = ({ dispatch }) => next => action => {
     if (method === 'GET') {
       axios
         .get(url)
-        .then(response => response.json())
-        .then(data => dispatch({ type: onSuccess, payload: data }))
+        .then(response => dispatch({ type: onSuccess, payload: response }))
         .catch(error => dispatch({ type: onError, payload: error }));
     }
     if (method === 'POST') {
       axios
         .post(url, { ...action.payload })
-        .then(response => response.json())
-        .then(data => dispatch({ type: onSuccess, payload: data }))
-        .catch(error => dispatch({ type: onError, payload: error }));
+        .then(response => dispatch({ type: onSuccess, payload: response }))
+        .catch(error => {
+          console.log(error);
+          dispatch({ type: onError, payload: error.response.data });
+        });
     }
   }
 

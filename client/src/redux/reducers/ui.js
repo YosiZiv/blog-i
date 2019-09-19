@@ -1,15 +1,17 @@
-import { TEST_REDUX } from '../actions/ui';
+import { SET_MESSAGE, REDIRECT } from '../actions/ui';
 
 const initState = {
-    message: null,
-
-}
+  message: null,
+  redirect: null
+};
 
 export function uiReducer(state = initState, action) {
-    switch (action.type) {
-        case TEST_REDUX:
-            return { ...state, message: 'look like redux working awsome' }
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case REDIRECT:
+      return { ...state, redirect: action.payload };
+    case SET_MESSAGE:
+      return { ...state, message: action.payload };
+    default:
+      return state;
+  }
 }

@@ -11,11 +11,12 @@ const { User } = require('../models');
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
+
   const { errors } = validateLoginInput(req.body);
   if (Object.keys(errors).length) {
     return res.status(403).json(errors);
   }
+
   //  Find user by email
   return User.findOne({ email }).then(dbUser => {
     // Check for User
@@ -51,7 +52,7 @@ exports.login = async (req, res, next) => {
 
                 return res
                   .status(500)
-                  .json({ message: 'Somthing went wrong', err });
+                  .json({ errors: 'Somthing went wrong', err });
               }
             );
           } // if no admin sign in user
@@ -76,7 +77,7 @@ exports.login = async (req, res, next) => {
               }
               return res
                 .status(500)
-                .json({ message: 'Somthing went wrong', err });
+                .json({ errors: 'Somthing went wrong', err });
             }
           );
         }
@@ -87,7 +88,7 @@ exports.login = async (req, res, next) => {
         if (err) {
           return res
             .status(500)
-            .json({ message: 'Somthing went wrong :/', err });
+            .json({ errors: 'Somthing went wrong :/', err });
         }
       });
   });

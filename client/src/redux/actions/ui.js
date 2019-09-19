@@ -1,5 +1,10 @@
-export const TEST_REDUX = '[test] Test_redux';
-
-export const testRedux = () => ({
-  type: TEST_REDUX
+export const SET_MESSAGE = '[UI] Message';
+export const REDIRECT = '[UI] Redirect';
+export const setMessage = message => ({
+  type: SET_MESSAGE,
+  payload: message
+});
+export const redirectTo = url => ({
+  type: REDIRECT,
+  payload: url
 });

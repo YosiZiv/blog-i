@@ -6,8 +6,7 @@ import { Redirect } from 'react-router-dom';
 import Input from '../../layout/Input/Input';
 import Button from '../../layout/Button/Button';
 import classes from './Login.module.css';
-import { login } from '../../../redux/actions/auth';
-import { testRedux } from '../../../redux/actions/ui';
+import { loginStart } from '../../../redux/actions/auth';
 import { updateObject, checkValidity } from '../../../shared/utility';
 
 class Login extends Component {
@@ -44,10 +43,6 @@ class Login extends Component {
     messages: null,
     redirectTo: false
   };
-  componentDidMount() {
-    const { login, testRedux } = this.props;
-    testRedux();
-  }
   inputChangeHandler = (event, controlName) => {
     const { login } = this.state;
     const updatedControls = updateObject(login, {
@@ -61,21 +56,20 @@ class Login extends Component {
   };
 
   submitHandler = async event => {
-    const { onAuth } = this.props;
+    const { loginStart } = this.props;
     const { login } = this.state;
-    const payload = {
+    const userData = {
       email: login.email.value,
       password: login.password.value
     };
-    event.preventDefault();
-    login(payload);
+    loginStart(userData);
   };
 
   render() {
-    const { login, messages } = this.state;
-    const { testMessage } = this.props;
+    const { login } = this.state;
+    const { message } = this.props;
 
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('token');
     const formElementArray = [];
     Object.entries(login).forEach(key => {
       formElementArray.push({
@@ -83,7 +77,6 @@ class Login extends Component {
         config: { ...key[1] }
       });
     });
-    console.log(formElementArray);
 
     const form = formElementArray.map(formElement => (
       <Input
@@ -99,31 +92,23 @@ class Login extends Component {
     ));
     return (
       <div className={classes.Login}>
-        {token ? <Redirect to="/admindashboard" /> : null}
+        {token ? <Redirect to="/" /> : null}
         <div className={classes.LoginCard}>
-          <h2>התחבר למערכת ערבות</h2>
-          <h2>למנהלים בעלי גישה בלבד</h2>
-          {testMessage ? <h2>{testMessage}</h2> : null}
+          <h1>Blog-i Login</h1>
           <div className={classes.LoginForm}>
-            <form className={classes.formFlex} onSubmit={this.submitHandler}>
+            <form onSubmit={this.submitHandler}>
               {form}
-              <div className={classes.Error}>{messages}</div>
               <div className={classes.Button}>
-                <Button clicked={this.submitHandler}>
-                  <i
-                    role="presentation"
-                    style={{
-                      color: '#1D9D46',
-                      marginRight: '5px',
-                      fontSize: '3.2vw',
-                      cursor: 'pointer'
-                    }}
-                    className="fas fa-sign-in-alt"
-                  />
-                </Button>
+                <button
+                  className="btn btn-success"
+                  onClick={this.submitHandler}
+                  type="button"
+                >
+                  Login
+                </button>
               </div>
             </form>
-            <div className={classes.LoginMessage}></div>
+            <div className={classes.LoginMessage}>{message}</div>
           </div>
         </div>
       </div>
@@ -132,10 +117,10 @@ class Login extends Component {
 }
 const mapStateToProps = state => {
   return {
-    testMessage: state.ui.message
+    message: state.ui.message
   };
 };
 export default connect(
   mapStateToProps,
-  { testRedux, login }
+  { loginStart }
 )(Login);
